@@ -1,13 +1,21 @@
-/* globals process */
+/* eslint-disable no-console */
+'use strict';
 
-const express = require('express');
-const app = express();
+var async = require('async');
+var server = require('./config/initializers/server');
 
-app.get('/', function(req, res) {
-	res.send('Hello World!');
-});
-
-const port = process.env.PORT || 3000;
-app.listen(port, function() {
-	console.log(`App listening on port ${port}`); // eslint-disable-line no-console
-});
+// Initialize Modules
+async.series(
+	[
+		function startServer(callback) {
+			server(callback);
+		}
+	],
+	function(err) {
+		if (err) {
+			console.error('[APP] initialization failed', err);
+		} else {
+			console.info('[APP] initialized SUCCESSFULLY');
+		}
+	}
+);
