@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 const app = express();
 
-var start = function(callback) {
+var start = callback => {
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(bodyParser.json({ type: '*/*' }));
 	app.use(express.static(path.join(__dirname, 'public')));
@@ -16,7 +16,7 @@ var start = function(callback) {
 	app.use('/', require('../../api/router'));
 
 	// Error handler
-	app.use(function(err, req, res, next) {
+	app.use((err, req, res, next) => {
 		res.status(err.status || 500);
 		res.json({
 			message: err.message,
